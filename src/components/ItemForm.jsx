@@ -18,6 +18,7 @@ const ItemForm = ({ type, onSubmit }) => {
     location: '',
     description: '',
     image: null,
+    MobileNo:'',
     contactEmail: ''
   });
 
@@ -32,13 +33,14 @@ const ItemForm = ({ type, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit(formData);
+    {alert("Your report is Submit Succesfully!");}
   };
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="max-w-2xl mx-auto p-6 bg-white rounded-2xl shadow-lg"
+      className="max-w-2xl mx-auto p-6 bg-orange-400 rounded-2xl shadow-lg"
     >
       <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
         Report {type === 'lost' ? 'Lost' : 'Found'} Item
@@ -139,6 +141,21 @@ const ItemForm = ({ type, onSubmit }) => {
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
+            Mobile No.
+          </label>
+          <input
+            type="number"
+            name="MobileNo"
+            value={formData.MobileNo}
+            onChange={handleChange}
+            required
+            className="input"
+            placeholder="Enter your mobile no."
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             Contact Email
           </label>
           <input
@@ -160,6 +177,7 @@ const ItemForm = ({ type, onSubmit }) => {
         >
           Submit Report
         </motion.button>
+
       </form>
     </motion.div>
   );
