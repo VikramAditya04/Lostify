@@ -26,7 +26,7 @@ const HomePage = () => {
                 Report an Item
               </Link>
               <Link to="/search" className="bg-orange-300 hover:bg-orange-400 text-white font-semibold px-6 py-3 rounded-md transition shadow">
-                Browse Lost Items
+                Browse Items
               </Link>
             </div>
           </div>
