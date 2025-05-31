@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import HomePage from './components/HomePage';
 import ItemForm from './components/ItemForm';
 import SearchPage from './components/SearchPage';
+import Footer from './components/Footer';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -35,6 +36,7 @@ function App() {
           />
           <Route path="/search" element={<SearchPage items={items} />} />
         </Routes>
+        <Footer />
       </div>
     </Router>
   );

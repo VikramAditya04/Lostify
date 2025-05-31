@@ -14,7 +14,7 @@ const HomePage = () => {
         {/* Main Content */}
         <div className="flex flex-col md:flex-row items-center justify-between flex-1 px-10 md:px-24 py-10 md:py-0 gap-10">
           {/* Left: Text Content */}
-          <div className="max-w-xl text-left">
+          <div className="max-w-xl text-left z-10">
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">
               Lost Something On Campus?<br />Let's Help You Find It
             </h1>
@@ -31,12 +31,12 @@ const HomePage = () => {
             </div>
           </div>
           {/* Right: Illustration */}
-          <div className="flex-1 flex items-center justify-center">
+          <div className="flex-1 flex items-center justify-center z-0">
             <motion.div
-              className="flex flex-col items-center justify-center relative w-[350px] h-[270px]"
+              className="flex flex-col items-center justify-center relative w-[350px] h-[270px] sm:w-[300px] sm:h-[230px] xs:w-[200px] xs:h-[180px]"
               animate={{
-                y: [0, -10, 0], // float up and down
-                x: [0, -5, 0], // float left and right
+                y: [0, -10, 0],
+                x: [0, -5, 0],
               }}
               transition={{
                 duration: 2,
@@ -45,9 +45,14 @@ const HomePage = () => {
                 ease: "easeInOut",
               }}
             >
-              <img src={campusimg} alt="" />
+              <img
+                src={campusimg}
+                alt=""
+                className="w-full h-auto object-contain" 
+              />
             </motion.div>
-          </div>
+        </div>
+
         </div>
       </div>
     </motion.div>
