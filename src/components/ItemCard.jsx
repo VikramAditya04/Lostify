@@ -4,14 +4,17 @@ import { useState } from 'react';
 const ItemCard = ({ item, onViewDetails }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  const isLost = item.type?.toLowerCase() === 'lost';
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.02 }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      className="card overflow-hidden"
+      className="card overflow-hidden rounded-lg shadow-md cursor-pointer bg-white"
+      onClick={() => onViewDetails(item)} 
     >
       <div className="relative h-48 bg-gray-100">
         {item.image ? (
@@ -31,8 +34,11 @@ const ItemCard = ({ item, onViewDetails }) => {
           className="absolute inset-0 bg-black/50 flex items-center justify-center"
         >
           <button
-            onClick={() => onViewDetails(item)}
-            className="btn-primary"
+            onClick={(e) => {
+              e.stopPropagation(); 
+              onViewDetails(item);
+            }}
+            className="bg-white font-semibold px-4 py-2 rounded border border-white"
           >
             View Details
           </button>
@@ -44,16 +50,20 @@ const ItemCard = ({ item, onViewDetails }) => {
           {item.itemName}
         </h3>
         <div className="flex items-center space-x-2 mb-2">
-          <span className="px-2 py-1 text-sm rounded-full bg-primary/10 text-primary">
+          <span className="px-2 py-1 text-sm rounded-full bg-blue-100 text-blue-700">
             {item.category}
           </span>
-          <span className="px-2 py-1 text-sm rounded-full bg-secondary/10 text-secondary">
-            {item.type === 'lost' ? 'Lost' : 'Found'}
+          <span
+            className={`px-2 py-1 text-sm rounded-full ${
+            item.type === 'lost'
+              ? 'bg-red-100 text-red-700'
+              : 'bg-green-100 text-green-700'
+          }`}
+        >
+          {item.type === 'lost' ? 'Lost' : 'Found'}
           </span>
         </div>
-        <p className="text-gray-600 text-sm mb-2">
-          Location: {item.location}
-        </p>
+        <p className="text-gray-600 text-sm mb-1">Location: {item.location}</p>
         <p className="text-gray-600 text-sm">
           Date: {new Date(item.date).toLocaleDateString()}
         </p>
@@ -62,4 +72,4 @@ const ItemCard = ({ item, onViewDetails }) => {
   );
 };
 
-export default ItemCard; 
+export default ItemCard;

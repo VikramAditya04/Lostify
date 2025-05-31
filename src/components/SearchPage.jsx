@@ -1,76 +1,84 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import ItemCard from './ItemCard';
+import ItemDetailsModal from './ItemDetailsModal';
 
 const SearchPage = ({ items }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const categories = [...new Set(items.map(item => item.category))];
   const types = ['lost', 'found'];
 
   const filteredItems = items.filter(item => {
-    const matchesSearch = item.itemName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         item.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch =
+      item.itemName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = !selectedCategory || item.category === selectedCategory;
-    const matchesType = !selectedType || item.type === selectedType;
+    const matchesType = !selectedType || item.type.toLowerCase() === selectedType;
     const matchesDate = !selectedDate || item.date === selectedDate;
 
     return matchesSearch && matchesCategory && matchesType && matchesDate;
   });
 
   const handleViewDetails = (item) => {
-    // TODO: Implement modal or navigation to details page
-    console.log('View details for:', item);
+    setSelectedItem(item);
+  };
+
+  const closeModal = () => {
+    setSelectedItem(null);
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white rounded-2xl shadow-lg">
+    <div className="h-full mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-[#0b4c47]  shadow-lg">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold text-gray-900 mb-6">Search Items</h1>
-        
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">
+          </h1>
+
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <input
             type="text"
             placeholder="Search items..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="input"
+            className="input border p-2 rounded-xl border-blue-400"
           />
-          
+
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="input"
+            className="input border p-2 rounded-xl border-blue-400"
           >
             <option value="">All Categories</option>
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
             ))}
           </select>
-          
+
           <select
             value={selectedType}
             onChange={(e) => setSelectedType(e.target.value)}
-            className="input"
+            className="input border p-2 rounded-xl border-blue-400"
           >
             <option value="">All Types</option>
             {types.map(type => (
-              <option key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
+              <option className="text-black bg-white" key={type} value={type}>{type.charAt(0).toUpperCase() + type.slice(1)}</option>
             ))}
           </select>
-          
+
           <input
             type="date"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
-            className="input"
+            className="input border p-2 rounded-xl border-blue-400"
           />
         </div>
       </motion.div>
@@ -81,7 +89,7 @@ const SearchPage = ({ items }) => {
             key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.05 }}
           >
             <ItemCard item={item} onViewDetails={handleViewDetails} />
           </motion.div>
@@ -97,8 +105,12 @@ const SearchPage = ({ items }) => {
           <p className="text-gray-500 text-lg">No items found matching your criteria.</p>
         </motion.div>
       )}
+
+      {selectedItem && (
+        <ItemDetailsModal item={selectedItem} onClose={closeModal} />
+      )}
     </div>
   );
 };
 
-export default SearchPage; 
+export default SearchPage;
